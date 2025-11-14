@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A — FanPage</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* --------------------
+   CYBERPUNK GLITCH BG
+-------------------- */
+:root {
+  --primary: #ffe100;
+  --primary-dark: #ccb400;
+  --secondary: #ff00c8;
+  --accent: #00ffff;
+  --dark: #0a0a0a;
+  --dark-transparent: rgba(10, 10, 10, 0.85);
+  --light: #f4f4f4;
+  --glow: 0 0 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  background: var(--dark);
+  color: var(--light);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* خلفية متحركة محسنة */
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* طبقة التدرج المتحركة */
+.gradient-layer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, 
+    rgba(255, 0, 200, 0.1) 0%, 
+    rgba(0, 255, 255, 0.1) 25%, 
+    rgba(255, 225, 0, 0.1) 50%, 
+    rgba(255, 0, 200, 0.1) 75%, 
+    rgba(0, 255, 255, 0.1) 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* طبقة الشبكة المتحركة */
+.grid-layer {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 225, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 225, 0, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 20s linear infinite;
+}
+
+/* طبقة الخطوط المتحركة */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 255, 0.03) 2px,
+    rgba(0, 255, 255, 0.03) 4px
+  );
+  animation: scanlineMove 10s linear infinite;
+}
+
+/* طبقة تأثير الجليتش */
+.glitch-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise2)' opacity='0.05'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+  animation: glitch 8s infinite linear;
+}
+
+/* طبقة الجسيمات المتحركة */
+.particles {
+  position: absolute;
+  inset: 0;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 5px var(--accent);
+  animation: float 15s infinite linear;
+}
+
+/* أنيميشن التدرج */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* أنيميشن الشبكة */
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* أنيميشن خطوط المسح */
+@keyframes scanlineMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+/* أنيميشن الجليتش */
+@keyframes glitch {
+  0%, 100% { transform: translate(0); opacity: 0.3; }
+  10% { transform: translate(-2px, 2px); opacity: 0.4; }
+  20% { transform: translate(2px, -2px); opacity: 0.3; }
+  30% { transform: translate(-1px, 1px); opacity: 0.35; }
+  40% { transform: translate(1px, -1px); opacity: 0.3; }
+  50% { transform: translate(-3px, 3px); opacity: 0.4; }
+  60% { transform: translate(3px, -3px); opacity: 0.3; }
+  70% { transform: translate(-1px, 1px); opacity: 0.35; }
+  80% { transform: translate(1px, -1px); opacity: 0.3; }
+  90% { transform: translate(-2px, 2px); opacity: 0.4; }
+}
+
+/* أنيميشن الجسيمات */
+@keyframes float {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* باقي الأنماط تبقى كما هي */
+/* HEADER */
+header {
+  padding: 20px 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--dark-transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--primary);
+  box-shadow: 0 0 20px rgba(255, 225, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-shadow: var(--glow) var(--primary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary);
+  box-shadow: var(--glow) var(--primary);
+}
+
+.logo i {
+  color: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* NAV */
+nav {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-btn {
+  color: var(--light);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  background: rgba(20, 20, 20, 0.7);
+}
+
+.nav-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  transition: left 0.6s;
+}
+
+.nav-btn:hover {
+  color: var(--dark);
+  background-color: var(--primary);
+  box-shadow: var(--glow) var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.nav-btn:hover::before {
+  left: 100%;
+}
+
+.nav-btn i {
+  font-size: 1.1rem;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* CARD STYLING */
+.card {
+  background: rgba(12, 12, 12, 0.85);
+  border: 1px solid var(--primary);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 0 18px rgba(255, 225, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255, 225, 0, 0.25);
+}
+
+.card h2 {
+  color: var(--primary);
+  margin: 0 0 15px;
+  font-size: 1.8rem;
+  text-shadow: var(--glow) var(--primary);
+  position: relative;
+  display: inline-block;
+}
+
+.card h2::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 50%;
+  height: 3px;
+  background: var(--primary);
+  box-shadow: var(--glow) var(--primary);
+}
+
+/* PROFILE SECTION */
+.profile {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.profile img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid var(--primary);
+  box-shadow: 0 0 20px var(--primary);
+  transition: transform 0.3s ease;
+}
+
+.profile img:hover {
+  transform: scale(1.05);
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+.profile-info p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+.profile-info b {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+/* GALLERY */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  filter: grayscale(0.3);
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+  border-color: var(--primary);
+  box-shadow: 0 0 15px var(--primary);
+  filter: grayscale(0);
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  text-decoration: none;
+  margin-top: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 225, 0, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover {
+  background: var(--primary);
+  color: var(--dark);
+  box-shadow: 0 0 15px var(--primary);
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 225, 0, 0.2);
+  background: var(--dark-transparent);
+  backdrop-filter: blur(10px);
+}
+
+footer p {
+  margin: 0;
+  color: var(--light);
+  font-size: 0.9rem;
+}
+
+/* QUOTE STYLING */
+.quote {
+  font-style: italic;
+  border-left: 3px solid var(--accent);
+  padding-left: 15px;
+  margin: 20px 0;
+  color: var(--accent);
+  text-shadow: 0 0 5px var(--accent);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  nav {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .nav-btn {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+  
+  .profile {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .profile img {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  
+  .gallery img {
+    height: 140px;
+  }
+  
+  .card h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  .card {
+    padding: 18px;
+  }
+  
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+  }
+  
+  .gallery img {
+    height: 120px;
+  }
+  
+  .logo {
+    font-size: 22px;
+  }
+  
+  .nav-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- استبدلت الخلفية الثابتة بخلفية متحركة متعددة الطبقات -->
+<div class="animated-bg">
+  <div class="gradient-layer"></div>
+  <div class="grid-layer"></div>
+  <div class="scanlines"></div>
+  <div class="glitch-overlay"></div>
+  <div class="particles" id="particles-container"></div>
+</div>
+
+<header>
+  <div class="logo">
+    <i class="fas fa-robot"></i>
+    A — FanPage
+  </div>
+  <nav>
+    <a href="index.html" class="nav-btn">
+      <i class="fas fa-home"></i>
+      My Space
+    </a>
+    
+    <a href="https://www.instagram.com/joste_.a?igsh=MWsyaGtqbWx0c3ozMw==" target="_blank" class="nav-btn">
+      <i class="fab fa-instagram"></i>
+      My Instagram
+    </a>
+    <a href="https://www.instagram.com/uzi_cute1?igsh=b2h6emx6Y29tNzZw" target="_blank" class="nav-btn">
+      <i class="fas fa-user-friends"></i>
+      GF's Instagram
+    </a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Welcome to My Creative World</h2>
+    <div class="profile">
+      <img src="https://raw.githubusercontent.com/tonstodio001-jpg/A-MD-/refs/heads/main/IMG_20251114_143944_052.jpg">
+      <div class="profile-info">
+        <p>
+          Hey there! I'm A, a passionate fan artist completely obsessed with Murder Drones.  
+          I love bringing these characters to life with my own unique twist.
+        </p>
+        <p class="quote">
+          "My art is where beauty meets mechanical mayhem - each piece tells a story of the Murder Drones universe through my eyes."
+        </p>
+        <p>
+          You can find my latest creations here: <b>@joste_.a</b>
+        </p>
+        <a href="https://www.instagram.com/joste_.a?igsh=MWsyaGtqbWx0c3ozMw==" target="_blank" class="btn">
+          <i class="fab fa-instagram"></i>
+          Follow My Journey
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>My Latest Creations</h2>
+    <p>These are some of my favorite pieces I've been working on recently. Each one represents my evolving style and love for the Murder Drones aesthetic.</p>
+    <div class="gallery">
+      <img src="https://raw.githubusercontent.com/tonstodio001-jpg/A-MD-/refs/heads/main/IMG_20251114_143944_052.jpg">
+      <img src="https://raw.githubusercontent.com/tonstodio001-jpg/A-MD-/refs/heads/main/IMG_20251114_143951_262.jpg">
+      <img src="https://raw.githubusercontent.com/tonstodio001-jpg/A-MD-/refs/heads/main/IMG_20251114_143953_256.jpg">
+      <img src="https://raw.githubusercontent.com/tonstodio001-jpg/A-MD-/refs/heads/main/IMG_20251114_162309_340.jpg">
+      <img src="https://raw.githubusercontent.com/tonstodio001-jpg/A-MD-/refs/heads/main/IMG_20251114_143951_262.jpg">
+      <img src="https://raw.githubusercontent.com/tonstodio001-jpg/A-MD-/refs/heads/main/IMG_20251114_162306_672.jpg">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>About My Art</h2>
+    <p>
+      I've been drawing Murder Drones characters for over a year now, constantly experimenting with different styles and techniques. 
+      My work focuses on capturing the perfect balance between the mechanical nature of the drones and their surprisingly human emotions.
+    </p>
+    <p class="quote">
+      "I don't just draw robots - I give souls to machines and tell stories through circuits and steel."
+    </p>
+    <p>
+      When I'm not drawing, I'm probably brainstorming my next piece or collaborating with other artists in the community. 
+      The Murder Drones fandom has been incredibly supportive, and I love being part of this creative family.
+    </p>
+    <p>
+      Feel free to check out my girlfriend's art too - she's an amazing artist who inspires me every day!
+    </p>
+    <a href="https://www.instagram.com/uzi_cute1?igsh=b2h6emx6Y29tNzZw" target="_blank" class="btn">
+      <i class="fas fa-user-friends"></i>
+      See My GF's Art
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2023 A's Creative Space. All art created with passion.</p>
+</footer>
+
+<script>
+// إنشاء جسيمات متحركة للخلفية
+document.addEventListener('DOMContentLoaded', function() {
+  const particlesContainer = document.getElementById('particles-container');
+  const particleCount = 50;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    
+    // توزيع عشوائي للجسيمات
+    const left = Math.random() * 100;
+    const delay = Math.random() * 15;
+    const duration = 10 + Math.random() * 10;
+    
+    particle.style.left = `${left}%`;
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.animationDuration = `${duration}s`;
+    
+    particlesContainer.appendChild(particle);
+  }
+});
+</script>
+
+</body>
+</html>
